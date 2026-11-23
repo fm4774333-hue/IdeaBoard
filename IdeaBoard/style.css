@@ -10,7 +10,10 @@ body {
     background: #f5f6fa;
     color: #25283b;
     overflow: hidden;
+    transition: background 0.25s, color 0.25s;
 }
+
+/* HEADER */
 
 .topbar {
     height: 85px;
@@ -18,7 +21,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 30px;
+    padding: 0 25px;
     border-bottom: 1px solid #e8e9ef;
     position: relative;
     z-index: 10;
@@ -60,9 +63,10 @@ body {
 .board-title input {
     border: none;
     outline: none;
+    background: transparent;
     font-size: 15px;
     font-weight: bold;
-    color: #333;
+    color: inherit;
     text-align: center;
     width: 210px;
 }
@@ -71,6 +75,22 @@ body {
     font-size: 11px;
     color: #39a879;
     text-align: center;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.theme-select {
+    padding: 11px;
+    border: 1px solid #e2e2eb;
+    border-radius: 9px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    font-size: 13px;
 }
 
 .add-button {
@@ -88,6 +108,8 @@ body {
     background: #5c50c4;
 }
 
+/* WORKSPACE */
+
 .workspace {
     height: calc(100vh - 125px);
     display: flex;
@@ -96,6 +118,7 @@ body {
 
 .toolbar {
     width: 65px;
+    flex-shrink: 0;
     background: white;
     border-right: 1px solid #e8e9ef;
     display: flex;
@@ -122,11 +145,18 @@ body {
     color: #7165dc;
 }
 
+.toolbar button.active {
+    background: #7165dc;
+    color: white;
+}
+
 .tool-divider {
     height: 1px;
     width: 30px;
     background: #e5e5eb;
 }
+
+/* BOARD */
 
 .board-area {
     flex: 1;
@@ -143,6 +173,19 @@ body {
     position: relative;
     transform-origin: top left;
 }
+
+#connections {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3000px;
+    height: 2000px;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* WELCOME CARD */
 
 .welcome-card {
     position: absolute;
@@ -174,6 +217,8 @@ body {
     color: #888;
 }
 
+/* NOTES */
+
 .note {
     position: absolute;
     width: 205px;
@@ -185,11 +230,17 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    z-index: 1;
     touch-action: none;
 }
 
 .note:active {
     cursor: grabbing;
+}
+
+.note.selected-note {
+    outline: 3px solid #7165dc;
+    outline-offset: 3px;
 }
 
 .note-header {
@@ -208,7 +259,8 @@ body {
     border: none;
     background: transparent;
     cursor: pointer;
-    font-size: 17px;
+    font-size: 19px;
+    color: #555;
 }
 
 .note textarea {
@@ -238,6 +290,8 @@ body {
     cursor: pointer;
 }
 
+/* ZOOM AND CONNECTION HINT */
+
 .zoom-indicator {
     position: absolute;
     bottom: 20px;
@@ -247,7 +301,29 @@ body {
     border-radius: 9px;
     box-shadow: 0 2px 10px #00000010;
     font-size: 12px;
+    z-index: 3;
 }
+
+.connection-hint {
+    display: none;
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #7165dc;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    z-index: 4;
+    box-shadow: 0 3px 12px #0002;
+}
+
+.connection-hint.visible {
+    display: block;
+}
+
+/* FOOTER */
 
 footer {
     height: 40px;
@@ -261,21 +337,139 @@ footer {
     font-size: 11px;
 }
 
+/* DARK MODE */
+
+body[data-theme="dark"] {
+    background: #15151c;
+    color: #f4f4f7;
+}
+
+body[data-theme="dark"] .topbar,
+body[data-theme="dark"] footer,
+body[data-theme="dark"] .toolbar {
+    background: #20202a;
+    border-color: #373744;
+}
+
+body[data-theme="dark"] .board-area {
+    background-color: #171720;
+    background-image: radial-gradient(#444454 1px, transparent 1px);
+}
+
+body[data-theme="dark"] .theme-select {
+    background: #30303c;
+    color: white;
+    border-color: #484858;
+}
+
+body[data-theme="dark"] .toolbar button {
+    background: #30303c;
+    color: white;
+}
+
+body[data-theme="dark"] .toolbar button.active {
+    background: #7165dc;
+}
+
+body[data-theme="dark"] .welcome-card {
+    background: #292936;
+    color: white;
+}
+
+body[data-theme="dark"] .welcome-card p {
+    color: #b9b9c9;
+}
+
+body[data-theme="dark"] .zoom-indicator {
+    background: #292936;
+    color: white;
+}
+
+body[data-theme="dark"] .note textarea {
+    color: #252525;
+}
+
+/* OCEAN DESIGN */
+
+body[data-theme="ocean"] {
+    background: #e8f6fa;
+    color: #17465b;
+}
+
+body[data-theme="ocean"] .topbar,
+body[data-theme="ocean"] footer,
+body[data-theme="ocean"] .toolbar {
+    background: #d5edf3;
+    border-color: #b7dce7;
+}
+
+body[data-theme="ocean"] .board-area {
+    background-color: #e5f5f8;
+    background-image: radial-gradient(#a9d1df 1px, transparent 1px);
+}
+
+body[data-theme="ocean"] .logo,
+body[data-theme="ocean"] .add-button {
+    background: #1789a7;
+}
+
+body[data-theme="ocean"] .welcome-card {
+    background: #f8ffff;
+}
+
+/* SUNSET DESIGN */
+
+body[data-theme="sunset"] {
+    background: #fff0e8;
+    color: #623c40;
+}
+
+body[data-theme="sunset"] .topbar,
+body[data-theme="sunset"] footer,
+body[data-theme="sunset"] .toolbar {
+    background: #fff5ef;
+    border-color: #f1d7ce;
+}
+
+body[data-theme="sunset"] .board-area {
+    background-color: #fff0e8;
+    background-image: radial-gradient(#e9b9aa 1px, transparent 1px);
+}
+
+body[data-theme="sunset"] .logo,
+body[data-theme="sunset"] .add-button {
+    background: #e57c65;
+}
+
+body[data-theme="sunset"] .welcome-card {
+    background: #fffaf6;
+}
+
+/* MOBILE */
+
 @media (max-width: 600px) {
     .topbar {
         padding: 0 10px;
     }
 
-    .brand p {
-        display: none;
-    }
-
+    .brand p,
     .board-title {
         display: none;
     }
 
+    .header-actions {
+        gap: 5px;
+    }
+
+    .theme-select {
+        max-width: 115px;
+        padding: 9px 4px;
+        font-size: 11px;
+    }
+
     .add-button {
         padding: 10px;
+        font-size: 12px;
     }
 
     footer span:last-child {

@@ -4,64 +4,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IdeaBoard – Digitales Whiteboard</title>
+    <title>IdeaBoard – Digital Whiteboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-theme="light">
 
-    <header class="topbar">
-        <div class="brand">
-            <span class="logo">✳</span>
-            <div>
-                <h1>IdeaBoard</h1>
-                <p>Dein digitaler Ideenraum</p>
-            </div>
+<header class="topbar">
+    <div class="brand">
+        <span class="logo">✳</span>
+        <div>
+            <h1>IdeaBoard</h1>
+            <p>Your creative workspace</p>
         </div>
+    </div>
 
-        <div class="board-title">
-            <input id="boardName" value="Mein Studienprojekt"
-                   aria-label="Name des Boards">
-            <span class="save-status" id="saveStatus">● Gespeichert</span>
-        </div>
+    <div class="board-title">
+        <input id="boardName" value="Mein Studienprojekt">
+        <span class="save-status" id="saveStatus">● Gespeichert</span>
+    </div>
+
+    <div class="header-actions">
+        <select id="themeSelect" class="theme-select">
+            <option value="light">☀️ Light</option>
+            <option value="dark">🌙 Dark</option>
+            <option value="ocean">🌊 Ocean</option>
+            <option value="sunset">🌅 Sunset</option>
+        </select>
 
         <button class="add-button" id="addNote">
             + Neue Notiz
         </button>
-    </header>
+    </div>
+</header>
 
-    <main class="workspace">
-        <aside class="toolbar">
-            <button id="addNoteTool" title="Notiz hinzufügen">📝</button>
-            <button id="addText" title="Text hinzufügen">T</button>
-            <div class="tool-divider"></div>
-            <button id="zoomIn" title="Vergrößern">＋</button>
-            <button id="zoomOut" title="Verkleinern">－</button>
-            <button id="resetZoom" title="Ansicht zurücksetzen">⌂</button>
-            <div class="tool-divider"></div>
-            <button id="clearBoard" title="Board leeren">🗑️</button>
-        </aside>
+<main class="workspace">
 
-        <section class="board-area" id="boardArea">
-            <div class="board" id="board">
+    <aside class="toolbar">
+        <button id="addNoteTool" title="Notiz hinzufügen">📝</button>
+        <button id="addText" title="Text hinzufügen">T</button>
 
-                <div class="welcome-card">
-                    <span>✦ WILLKOMMEN</span>
-                    <h2>Deine Ideen.<br>Deine Kreativität.</h2>
-                    <p>Erstelle Notizen, sammle Gedanken und
-                       entwickle gemeinsam neue Ideen.</p>
-                </div>
+        <div class="tool-divider"></div>
 
+        <button id="connectNotes" title="Notizen verbinden">↗</button>
+
+        <div class="tool-divider"></div>
+
+        <button id="zoomIn" title="Vergrößern">＋</button>
+        <button id="zoomOut" title="Verkleinern">－</button>
+        <button id="resetZoom" title="Zoom zurücksetzen">⌂</button>
+
+        <div class="tool-divider"></div>
+
+        <button id="clearBoard" title="Board leeren">🗑️</button>
+    </aside>
+
+    <section class="board-area" id="boardArea">
+        <div class="board" id="board">
+
+            <svg id="connections">
+                <defs>
+                    <marker id="arrowHead"
+                        markerWidth="10"
+                        markerHeight="10"
+                        refX="8"
+                        refY="3"
+                        orient="auto">
+                        <path d="M0,0 L0,6 L9,3 Z"
+                            fill="#7165dc"/>
+                    </marker>
+                </defs>
+            </svg>
+
+            <div class="welcome-card">
+                <span>✦ WELCOME TO IDEABOARD</span>
+                <h2>Your ideas.<br>Your creativity.</h2>
+                <p>
+                    Create notes, connect thoughts and
+                    develop new ideas. Your digital
+                    workspace starts here.
+                </p>
             </div>
-        </section>
 
-        <div class="zoom-indicator" id="zoomIndicator">100 %</div>
-    </main>
+        </div>
+    </section>
 
-    <footer>
-        <span>IdeaBoard © 2026</span>
-        <span>Ein digitales Whiteboard für kreative Ideen</span>
-    </footer>
+    <div class="zoom-indicator" id="zoomIndicator">
+        100 %
+    </div>
 
-    <script src="script.js"></script>
+    <div class="connection-hint" id="connectionHint">
+        Wähle zwei Notizen aus, um sie zu verbinden.
+    </div>
+
+</main>
+
+<footer>
+    <span>IdeaBoard © 2026</span>
+    <span>Made for creative minds</span>
+</footer>
+
+<script src="script.js"></script>
+
 </body>
 </html>
