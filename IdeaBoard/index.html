@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdeaBoard – Digitales Whiteboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="brand">
+            <span class="logo">✳</span>
+            <div>
+                <h1>IdeaBoard</h1>
+                <p>Dein digitaler Ideenraum</p>
+            </div>
+        </div>
+
+        <div class="board-title">
+            <input id="boardName" value="Mein Studienprojekt"
+                   aria-label="Name des Boards">
+            <span class="save-status" id="saveStatus">● Gespeichert</span>
+        </div>
+
+        <button class="add-button" id="addNote">
+            + Neue Notiz
+        </button>
+    </header>
+
+    <main class="workspace">
+        <aside class="toolbar">
+            <button id="addNoteTool" title="Notiz hinzufügen">📝</button>
+            <button id="addText" title="Text hinzufügen">T</button>
+            <div class="tool-divider"></div>
+            <button id="zoomIn" title="Vergrößern">＋</button>
+            <button id="zoomOut" title="Verkleinern">－</button>
+            <button id="resetZoom" title="Ansicht zurücksetzen">⌂</button>
+            <div class="tool-divider"></div>
+            <button id="clearBoard" title="Board leeren">🗑️</button>
+        </aside>
+
+        <section class="board-area" id="boardArea">
+            <div class="board" id="board">
+
+                <div class="welcome-card">
+                    <span>✦ WILLKOMMEN</span>
+                    <h2>Deine Ideen.<br>Deine Kreativität.</h2>
+                    <p>Erstelle Notizen, sammle Gedanken und
+                       entwickle gemeinsam neue Ideen.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="zoom-indicator" id="zoomIndicator">100 %</div>
+    </main>
+
+    <footer>
+        <span>IdeaBoard © 2026</span>
+        <span>Ein digitales Whiteboard für kreative Ideen</span>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
