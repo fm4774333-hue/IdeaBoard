@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IdeaBoard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">✦</span><span>IdeaBoard</span></div>
+    <input id="boardTitle" class="board-title" value="Mein Arbeitsbereich" aria-label="Name des Arbeitsbereichs">
+    <div class="top-actions">
+      <select id="workspaceSelect" aria-label="Arbeitsbereich auswählen"></select>
+      <button id="newWorkspaceBtn" class="button">＋ Arbeitsbereich</button>
+      <button id="boardDesignBtn" class="button">🎨 Board-Design</button>
+      <button id="teamBtn" class="button">Team-Modus</button>
+      <button id="exportBtn" class="button primary">PDF exportieren</button>
+    </div>
+  </header>
+
+  <nav class="toolbar" aria-label="Werkzeuge">
+    <button id="addNoteBtn" class="tool active" title="Notiz erstellen">▤ <span>Notiz</span></button>
+    <button id="addShapeBtn" class="tool" title="Form erstellen">◇ <span>Form</span></button>
+    <button id="addImageBtn" class="tool" title="Bild hochladen">▧ <span>Bild</span></button>
+    <button id="connectBtn" class="tool" title="Zwei Elemente verbinden">↗ <span>Verbinden</span></button>
+    <select id="connectionStyle" class="connection-style" aria-label="Verbindungsart"><option value="arrow">Pfeil</option><option value="line">Linie</option><option value="dashed">Gestrichelt</option><option value="double">Doppelpfeil</option></select>
+    <button id="mindmapBtn" class="tool" title="Mindmap-Vorlage erstellen">✣ <span>Mindmap</span></button>
+    <span class="toolbar-separator"></span>
+    <button id="zoomOutBtn" class="tool compact" title="Verkleinern">−</button>
+    <span id="zoomLabel" class="zoom-label">100%</span>
+    <button id="zoomInBtn" class="tool compact" title="Vergrößern">＋</button>
+    <button id="resetViewBtn" class="tool compact" title="Ansicht zurücksetzen">⤢</button>
+    <span class="toolbar-spacer"></span>
+    <span id="statusText" class="status">Lokal gespeichert</span>
+  </nav>
+
+  <main id="boardViewport" class="board-viewport">
+    <div id="board" class="board">
+      <svg id="connections" class="connections" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#64748b"></polygon></marker>
+          <marker id="arrowstart" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto"><polygon points="10 0, 0 3.5, 10 7" fill="#64748b"></polygon></marker>
+        </defs>
+      </svg>
+      <div id="emptyHint" class="empty-hint">
+        <div class="empty-icon">✦</div>
+        <h2>Deine Ideen beginnen hier</h2>
+        <p>Erstelle Notizen, verbinde Gedanken oder füge Bilder mit Strg + V direkt aus der Zwischenablage ein.</p>
+        <button id="emptyAddBtn" class="button primary">＋ Erste Notiz erstellen</button>
+      </div>
+    </div>
+  </main>
+
+  <input id="imageInput" type="file" accept="image/*" hidden>
+  <input id="workspaceNameInput" type="text" hidden>
+
+  <dialog id="shapeDialog" class="dialog">
+    <form method="dialog">
+      <div class="dialog-head"><h2>Form hinzufügen</h2><button class="icon-button" value="cancel">✕</button></div>
+      <p>Wähle eine Form für dein Board.</p>
+      <div class="shape-options">
+        <button class="shape-option" value="rect" data-shape="rect"><span class="shape-preview rect-preview"></span>Rechteck</button>
+        <button class="shape-option" value="circle" data-shape="circle"><span class="shape-preview circle-preview"></span>Kreis</button>
+        <button class="shape-option" value="diamond" data-shape="diamond"><span class="shape-preview diamond-preview"></span>Raute</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="boardDesignDialog" class="dialog design-dialog">
+    <form method="dialog">
+      <div class="dialog-head"><h2>Board-Design</h2><button class="icon-button" value="cancel" aria-label="Schließen">✕</button></div>
+      <p>Ändere das Aussehen deiner gesamten Arbeitsfläche.</p>
+      <div class="theme-options">
+        <button type="button" class="theme-option" data-board-theme="light"><span class="theme-preview theme-light"></span><strong>Light</strong><small>Hell & klar</small></button>
+        <button type="button" class="theme-option" data-board-theme="dark"><span class="theme-preview theme-dark"></span><strong>Dark</strong><small>Dunkel & ruhig</small></button>
+        <button type="button" class="theme-option" data-board-theme="warm"><span class="theme-preview theme-warm"></span><strong>Warm</strong><small>Sand & Beige</small></button>
+        <button type="button" class="theme-option" data-board-theme="ocean"><span class="theme-preview theme-ocean"></span><strong>Ocean</strong><small>Blau & frisch</small></button>
+        <button type="button" class="theme-option" data-board-theme="lavender"><span class="theme-preview theme-lavender"></span><strong>Lavender</strong><small>Violett & soft</small></button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="teamDialog" class="dialog wide-dialog">
+    <form method="dialog">
+      <div class="dialog-head"><h2>Team-Modus</h2><button class="icon-button" value="cancel">✕</button></div>
+      <p>Verbinde diesen Arbeitsbereich mit einer Firebase Realtime Database, damit mehrere Personen gemeinsam daran arbeiten können.</p>
+      <label class="field-label" for="firebaseConfig">Firebase-Konfiguration (JSON)</label>
+      <textarea id="firebaseConfig" class="config-input" rows="7" placeholder='{"apiKey":"...","authDomain":"...","databaseURL":"https://DEIN-PROJEKT-default-rtdb.europe-west1.firebasedatabase.app","projectId":"...","appId":"..."}'></textarea>
+      <label class="field-label" for="teamRoom">Gemeinsame Board-ID</label>
+      <input id="teamRoom" class="text-input" placeholder="z. B. marketing-team">
+      <div class="dialog-actions">
+        <button id="disconnectTeamBtn" type="button" class="button">Team-Modus trennen</button>
+        <button id="connectTeamBtn" type="button" class="button primary">Verbinden</button>
+      </div>
+      <p class="small-note">Hinweis: Diese Demo verwendet die Firebase-Web-SDKs. Richte in Firebase die Realtime Database ein und aktiviere passende Sicherheitsregeln. Für echte Projekte solltest du Anmeldung und Zugriffsschutz ergänzen. Teile deine Firebase-Konfiguration nicht mit geheimen Admin-Schlüsseln.</p>
+      <p id="teamMessage" class="team-message" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <template id="noteTemplate">
+    <article class="board-item note-card">
+      <div class="item-header drag-handle">
+        <span class="item-grip">⠿</span>
+        <input class="note-heading" type="text" placeholder="Überschrift">
+        <button class="item-menu" title="Optionen">⋯</button>
+      </div>
+      <textarea class="note-body" placeholder="Schreibe deine Idee ..."></textarea>
+      <div class="item-footer">
+        <select class="style-select" aria-label="Notiz-Design">
+          <option value="sticky">1 · Sticky Note</option>
+          <option value="rounded">2 · Rounded Card</option>
+          <option value="minimal">3 · Minimal</option>
+          <option value="glass">4 · Glass</option>
+          <option value="checklist">5 · Checkliste</option>
+          <option value="heading">6 · Überschrift</option>
+          <option value="dark">7 · Dark Card</option>
+          <option value="gradient">8 · Gradient</option>
+        </select>
+        <input class="color-input" type="color" value="#fff1a8" title="Farbe ändern">
+        <button class="delete-item" title="Notiz löschen">✕</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="shapeTemplate">
+    <article class="board-item shape-item">
+      <div class="shape-inner"><input class="shape-text" placeholder="Text eingeben"></div>
+      <div class="shape-controls"><button class="delete-item" title="Form löschen">✕</button></div>
+    </article>
+  </template>
+
+  <template id="imageTemplate">
+    <article class="board-item image-item">
+      <div class="image-header drag-handle"><span class="item-grip">⠿</span><input class="image-caption" placeholder="Bildbeschreibung"><button class="delete-item" title="Bild löschen">✕</button></div>
+      <img class="board-image" alt="Hochgeladenes Bild">
+    </article>
+  </template>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
